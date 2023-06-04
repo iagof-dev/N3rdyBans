@@ -1,6 +1,6 @@
 package com.n3rdydev.commands;
 
-import com.n3rdydev.sql.mysql;
+import com.n3rdydev.sql.MySql;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
 
@@ -13,7 +13,7 @@ public class unban extends Command {
 
         if(sender.hasPermission("n3rdydev.command.banir") || sender.hasPermission("n3rdydev.*")){
             if(args[0] != null){
-                boolean success = mysql.unban_user(args[0]);
+                boolean success = MySql.unban_user(args[0]);
                 if(success != false){
                     sender.sendMessage("§aVocê desbaniu o jogador " + args[0] + "!");
                 }

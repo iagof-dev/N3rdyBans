@@ -1,7 +1,7 @@
 package com.n3rdydev;
 
 import com.n3rdydev.events.listener;
-import com.n3rdydev.sql.mysql;
+import com.n3rdydev.sql.MySql;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 
@@ -11,7 +11,6 @@ public class main extends Plugin {
 
     @Override
     public void onEnable(){
-
         //Eventos
         getProxy().getPluginManager().registerListener(this, new listener());
 
@@ -19,7 +18,8 @@ public class main extends Plugin {
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new com.n3rdydev.commands.ban());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new com.n3rdydev.commands.unban());
 
-        Connection con = mysql.CreateCon();
+        Connection con = MySql.CreateCon();
+
         if(con != null){
             getLogger().info("§6================");
             getLogger().info("§a[N3rdyBans] Inicialização Estabelecida!");
