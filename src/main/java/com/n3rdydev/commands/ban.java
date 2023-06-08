@@ -23,6 +23,17 @@ public class ban extends Command {
             boolean chat_global = true;
             boolean temp_ban = false;
 
+            //TEMPORARIO FORMATO:
+            //1S = 1 segundo
+            //1M = 1 minuto
+            //1H = 1 hora
+            //1D = 1 dia
+            //1W = 1 semana
+            //1MO = 1 mês
+            //1Y = 1 ano
+
+
+
             //=======Verificações======
             boolean permissao = false;
             if (p.hasPermission("n3rdydev.command.banir") || p.hasPermission("n3rdydev.*")) {
