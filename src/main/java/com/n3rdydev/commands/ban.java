@@ -8,6 +8,7 @@ import net.md_5.bungee.api.connection.Server;
 import net.md_5.bungee.api.plugin.Command;
 
 import java.lang.reflect.Proxy;
+import java.util.Collection;
 
 public class ban extends Command {
 
@@ -73,6 +74,8 @@ public class ban extends Command {
                 String motivo = args[1];
                 String player = args[0];
 
+                ProxiedPlayer target = ProxyServer.getInstance().getPlayer(player);
+
                 motivo = motivo.toLowerCase();
 
                 ProxiedPlayer vitima = ProxyServer.getInstance().getPlayer(player);
@@ -80,18 +83,17 @@ public class ban extends Command {
                 if (vitima != null) {
                     com.n3rdydev.sql.HandleBan.ban_user(player, motivo);
                     p.sendMessage("§aVocê baniu o jogador " + player + "!");
+                    if (chat_global != false && args[1].equals("hack")) {
+                        Server servidor = vitima.getServer();
+                        Collection<ProxiedPlayer> players = servidor.getInfo().getPlayers();
+                        for (ProxiedPlayer p_list : players) {
+                            p_list.sendMessage("§cUm jogador utilizando trapaças em sua sala foi banido.");
+                        }
+                    }
                 } else {
                     com.n3rdydev.sql.HandleBan.ban_user(player, motivo);
                     p.sendMessage("§aVocê baniu o jogador " + player + "! (Offline)");
                 }
-
-                if (ProxyServer.getInstance().getPlayer(player).isConnected()) {
-                    if (chat_global != false && args[1].equals("hack")) {
-                        Server a = vitima.getServer();
-                        ProxyServer.getInstance().broadcast("§cUm jogador foi removido desta sala por uso de trapaça.");
-                    }
-                }
-
 
             } else {
                 p.sendMessage("§cSem permissão.");
