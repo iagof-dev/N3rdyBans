@@ -28,7 +28,7 @@ public class main extends Plugin {
         }
         else{
             getLogger().info("§d================");
-            getLogger().info("§a[N3rdyBans] Mysql não configurado!");
+            getLogger().info("§a[N3rdyBans] Mysql Não Configurado!");
             getLogger().info("§d================");
         }
     }

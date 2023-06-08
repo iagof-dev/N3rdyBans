@@ -11,23 +11,27 @@ public class unban extends Command {
 
     public void execute(CommandSender sender, String[] args) {
 
-        if(sender.hasPermission("n3rdydev.command.banir") || sender.hasPermission("n3rdydev.*")){
-            if(args[0] != null){
-                boolean success = MySql.unban_user(args[0]);
-                if(success != false){
-                    sender.sendMessage("§aVocê desbaniu o jogador " + args[0] + "!");
-                }
-                else{
-                    sender.sendMessage("§cErro! não identificado");
-                }
+        if (sender.hasPermission("n3rdydev.command.banir") || sender.hasPermission("n3rdydev.*")) {
+
+            //===Verificações===
+            if (args.length == 0) {
+                sender.sendMessage("[N3rdyBans] §cErro!\n§eArgumentos: /unban [Nick]");
+                return;
+            }
+
+            //========================
+            boolean success = MySql.unban_user(args[0]);
+
+            if(success != false){
+                sender.sendMessage("[N3rdyBans] §aVocê desbaniu o jogador " + args[0] + "!");
             }
             else{
-                sender.sendMessage("§cEspecifique um jogador...");
+                sender.sendMessage("[N3rdyBans] §cNão foi possivel desbanir este jogador!");
             }
-        }
-        else{
+
+
+        } else {
             sender.sendMessage("§cSem permissão!");
         }
-
     }
 }

@@ -29,7 +29,7 @@ public class ban extends Command {
                 permissao = true;
             }
             if (args.length == 0) {
-                p.sendMessage("cErro! §eArgumentos: /banir [Nick] [Hack/Bugs/Comportamento] <temp/-s> <tempo>");
+                p.sendMessage("[N3rdyBans] §cErro!\n§eArgumentos: /banir [Nick] [Hack/Bugs/Comportamento] <temp/-s> <tempo>\nExemplo: /banir Notch hack");
                 return;
             }
             if (args.length == 1) {
