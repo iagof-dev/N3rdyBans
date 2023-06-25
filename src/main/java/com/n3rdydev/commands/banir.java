@@ -1,38 +1,35 @@
 package com.n3rdydev.commands;
 
+import com.n3rdydev.sql.handleBan;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.connection.Connection;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.connection.Server;
 import net.md_5.bungee.api.plugin.Command;
 
-import java.lang.reflect.Proxy;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 
-public class ban extends Command {
+public class banir extends Command {
 
-    public ban() {
+    public banir() {
         super("banir");
     }
 
     public void execute(CommandSender sender, String[] args) {
+        ProxiedPlayer p;
+
         if ((sender instanceof ProxiedPlayer)) {
-            ProxiedPlayer p = (ProxiedPlayer) sender;
+            p = (ProxiedPlayer) sender;
 
             boolean is_temp = false;
             boolean chat_global = true;
             boolean temp_ban = false;
 
-            //TEMPORARIO FORMATO:
-            //1S = 1 segundo
-            //1M = 1 minuto
-            //1H = 1 hora
-            //1D = 1 dia
-            //1W = 1 semana
-            //1MO = 1 mês
-            //1Y = 1 ano
-
+            LocalDate ban_dias = LocalDate.now();
+            LocalTime ban_horas = LocalTime.now();
 
 
             //=======Verificações======
@@ -48,40 +45,38 @@ public class ban extends Command {
                 p.sendMessage("cErro! §eArgumentos: /banir [Nick] [Hack/Bugs/Comportamento] <temp/-s> <tempo>");
                 return;
             }
-            if (args.length > 2) {
+            if (args.length >= 2) {
                 switch (args[2]) {
                     case "-s":
                         chat_global = false;
-                        break;
-                    case "temp":
-                        is_temp = true;
                         break;
                     default:
                         is_temp = false;
                         chat_global = true;
                         break;
                 }
+
+
             }
 
-            if (((ProxiedPlayer) sender).getDisplayName().toLowerCase() == args[0].toLowerCase()) {
+            if (args[0].toLowerCase() == p.getDisplayName()) {
                 p.sendMessage("§cNão é possível banir a si mesmo!");
                 return;
             }
 
             //==============================
 
+
             if (permissao != false) {
                 String motivo = args[1];
                 String player = args[0];
-
-                ProxiedPlayer target = ProxyServer.getInstance().getPlayer(player);
 
                 motivo = motivo.toLowerCase();
 
                 ProxiedPlayer vitima = ProxyServer.getInstance().getPlayer(player);
 
                 if (vitima != null) {
-                    com.n3rdydev.sql.HandleBan.ban_user(player, motivo);
+                    handleBan.ban_user(player, motivo);
                     p.sendMessage("§aVocê baniu o jogador " + player + "!");
                     if (chat_global != false && args[1].equals("hack")) {
                         Server servidor = vitima.getServer();
@@ -91,7 +86,7 @@ public class ban extends Command {
                         }
                     }
                 } else {
-                    com.n3rdydev.sql.HandleBan.ban_user(player, motivo);
+                    handleBan.ban_user(player, motivo);
                     p.sendMessage("§aVocê baniu o jogador " + player + "! (Offline)");
                 }
 
@@ -105,3 +100,4 @@ public class ban extends Command {
     }
 
 }
+

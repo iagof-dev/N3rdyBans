@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.UUID;
 
-public class HandleBan {
+public class handleBan {
     public static boolean ban_user(String nickname, String motivo) {
         String com = "";
         String final_reason = "";

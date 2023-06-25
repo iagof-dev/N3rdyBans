@@ -20,7 +20,7 @@ public class unban extends Command {
             }
 
             //========================
-            boolean success = MySql.unban_user(args[0]);
+            boolean success = com.n3rdydev.sql.handleUnban.unban_user(args[0]);
 
             if(success != false){
                 sender.sendMessage("[N3rdyBans] §aVocê desbaniu o jogador " + args[0] + "!");

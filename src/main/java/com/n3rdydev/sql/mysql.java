@@ -1,6 +1,7 @@
 package com.n3rdydev.sql;
 
 
+import com.n3rdydev.settings.config;
 import net.md_5.bungee.api.plugin.Plugin;
 
 import java.sql.*;
@@ -10,9 +11,9 @@ public class MySql extends Plugin {
     static String db_ip = "localhost";
     static int db_port = 3306;
     static String db_user = "root";
-    static String db_pass = "N3rdygamerbr@123";
-    static String db_database = "N3rdyBans";
-    static String db_table = "users_banned";
+    static String db_pass = "";
+    static String db_database = "";
+    static String db_table = "";
     static String db_type = "jdbc:mysql://";
     public static String db = db_type + db_ip + ":" + db_port + "/" + db_database + "?jdbcCompliantTruncation=false";
 
@@ -24,6 +25,15 @@ public class MySql extends Plugin {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public static void LoadConfig(){
+        db_ip = config.config.getString("database.mysql.ip");
+        db_user = config.config.getString("database.mysql.user");
+        db_pass = config.config.getString("database.mysql.pass");
+        db_port = config.config.getInt("database.mysql.port");
+        db_table = config.config.getString("database.mysql.db");
+        db_database = config.config.getString("database.mysql.table");
     }
 
     public static String[] is_banned(String name) {
@@ -62,22 +72,7 @@ public class MySql extends Plugin {
 
 
 
-    public static boolean unban_user(String nickname) {
 
-        String com = "update " + db_table + " set active=false where nickname='" + nickname + "';";
-
-        try{
-            Connection mysqlcon = MySql.CreateCon();
-            PreparedStatement st = mysqlcon.prepareStatement(com);
-            st.executeUpdate();
-        }
-        catch (Exception eax){
-
-        }
-
-        return true;
-
-    }
 
 
 }
