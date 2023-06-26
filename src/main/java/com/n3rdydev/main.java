@@ -26,22 +26,14 @@ public class main extends Plugin {
 
     @Override
     public void onEnable() {
-        getLogger().info("N3rdyBans | Carregando configurações...");
-        config.Load();
-        getLogger().info("N3rdyBans | Configurações carregadas!");
-
-
         //Eventos
         getProxy().getPluginManager().registerListener(this, new handlePlayerJoin());
 
         //Comandos
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new banir());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new com.n3rdydev.commands.unban());
-
-        if (config.config.getBoolean("database.mysql.enabled")) {
             MySql.LoadConfig();
             try {
-                getLogger().info("Tentando conexão com: " + config.config.getString("database.mysql.ip"));
                 Connection con = MySql.CreateCon();
                 if (!con.isClosed()) {
                     getLogger().info("§6================");
@@ -54,7 +46,6 @@ public class main extends Plugin {
                 getLogger().info("§a[N3rdyBans] Mysql nao configurado corretamente");
                 getLogger().info("§d================");
             }
-        }
     }
 
     @Override
@@ -65,11 +56,6 @@ public class main extends Plugin {
 
     @Override
     public void onDisable() {
-        try {
-            ConfigurationProvider.getProvider(YamlConfiguration.class).save(config.config, new File(getDataFolder(), "config.yml"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
         getLogger().info("§c[N3rdyBans] Plugin Desabilitado.");
     }
 
