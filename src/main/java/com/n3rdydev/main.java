@@ -1,16 +1,16 @@
 package com.n3rdydev;
 
 import com.n3rdydev.commands.banir;
-import com.n3rdydev.events.listener;
-import com.n3rdydev.settings.config;
+import com.n3rdydev.events.handlePlayerJoin;
 import com.n3rdydev.sql.MySql;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
+import net.md_5.bungee.config.ConfigurationProvider;
+import net.md_5.bungee.config.YamlConfiguration;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
-
-import static net.md_5.bungee.api.ProxyServer.setInstance;
 
 public class main extends Plugin {
 
@@ -27,12 +27,12 @@ public class main extends Plugin {
     @Override
     public void onEnable() {
         getLogger().info("N3rdyBans | Carregando configurações...");
-        com.n3rdydev.settings.config.Load();
+        config.Load();
         getLogger().info("N3rdyBans | Configurações carregadas!");
 
 
         //Eventos
-        getProxy().getPluginManager().registerListener(this, new listener());
+        getProxy().getPluginManager().registerListener(this, new handlePlayerJoin());
 
         //Comandos
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new banir());
@@ -65,6 +65,11 @@ public class main extends Plugin {
 
     @Override
     public void onDisable() {
+        try {
+            ConfigurationProvider.getProvider(YamlConfiguration.class).save(config.config, new File(getDataFolder(), "config.yml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         getLogger().info("§c[N3rdyBans] Plugin Desabilitado.");
     }
 

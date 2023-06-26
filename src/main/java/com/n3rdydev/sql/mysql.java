@@ -1,7 +1,6 @@
 package com.n3rdydev.sql;
 
 
-import com.n3rdydev.settings.config;
 import net.md_5.bungee.api.plugin.Plugin;
 
 import java.sql.*;
@@ -28,12 +27,12 @@ public class MySql extends Plugin {
     }
 
     public static void LoadConfig(){
-        db_ip = config.config.getString("database.mysql.ip");
-        db_user = config.config.getString("database.mysql.user");
-        db_pass = config.config.getString("database.mysql.pass");
-        db_port = config.config.getInt("database.mysql.port");
-        db_table = config.config.getString("database.mysql.db");
-        db_database = config.config.getString("database.mysql.table");
+//        db_ip = config.config.getString("database.mysql.ip");
+//        db_user = config.config.getString("database.mysql.user");
+//        db_pass = config.config.getString("database.mysql.pass");
+//        db_port = config.config.getInt("database.mysql.port");
+//        db_table = config.config.getString("database.mysql.db");
+//        db_database = config.config.getString("database.mysql.table");
     }
 
     public static String[] is_banned(String name) {

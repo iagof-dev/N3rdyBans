@@ -5,7 +5,7 @@ import net.md_5.bungee.api.event.PreLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
-public class listener implements Listener {
+public class handlePlayerJoin implements Listener {
     @EventHandler
     public void onPlayerJoin(PreLoginEvent e) {
         String user_name = e.getConnection().getName();
