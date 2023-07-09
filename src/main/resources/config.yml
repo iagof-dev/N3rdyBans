@@ -1,9 +1,0 @@
-database:
-  mysql:
-    enabled: false
-    address: localhost
-    port: 3306
-    user: root
-    pass: "132490Kj@br="
-    db: N3rdyBans
-    table: users_banned
