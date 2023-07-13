@@ -35,12 +35,12 @@ public class MySql {
         return null;
     }
 
-    public static Connection getCon(){
+    public static Connection getCon() {
         init();
         return con;
     }
 
-    public static void closeCon(){
+    public static void closeCon() {
         try {
             con.close();
         } catch (SQLException e) {
@@ -49,12 +49,11 @@ public class MySql {
     }
 
 
-    static boolean getStatus(){
+    static boolean getStatus() {
         try {
-            if(getCon().isClosed() != true){
+            if (getCon().isClosed() != true) {
                 return true;
-            }
-            else{
+            } else {
                 init();
             }
         } catch (SQLException e) {
@@ -88,12 +87,12 @@ public class MySql {
     }
 
     public static void create_table() {
-        String com = "create table if not exists " + MySql.user_table + "( id int auto_increment primary key, active bool not null, hash varchar(12) default (LEFT(UUID(), 8)) unique, UUID varchar(64) not null, motivo longtext not null, autor mediumtext not null, temp bool not null, time datetime );";
+        String com = "create table if not exists " + MySql.user_table + "( id int auto_increment primary key, active bool not null, hash varchar(12) default (LEFT(UUID(), 8)) unique, UUID varchar(64), nickname varchar(128) not null,motivo longtext not null, autor mediumtext not null, temp bool not null, time datetime );";
         Bukkit.getConsoleSender().sendMessage("Tabela: " + sendCommand(com));
     }
 
-    public static boolean is_banned(UUID p_uuid) {
-        String com = "select * from " + user_table + " where UUID='" + p_uuid + "'; ";
+    public static boolean is_banned(String nick) {
+        String com = "select * from " + user_table + " where nickname='" + nick + "'; ";
         ResultSet rs = getValue(com);
 
         try {
@@ -109,17 +108,17 @@ public class MySql {
     }
 
     public static void verifyUser(Player p) {
-        boolean banido = is_banned(p.getUniqueId());
+        boolean banido = is_banned(p.getName());
 
         if (banido) {
             String kick_reason;
-            String com = "select * from " + user_table + " where UUID='" + p.getUniqueId() + "'; ";
+            String com = "select * from " + user_table + " where nickname='" + p.getName() + "'; ";
 
             ResultSet rs = getValue(com);
 
             try {
                 if (rs.next()) {
-                    p.kickPlayer("§cVocê está banido permanentemente!\n§cMotivo: " + rs.getString("motivo") + "\n \n§eAdquira Seu unban: §bloja.localhost.com§f\n§cBanido injustamente? Contate-nos via localhost.com/discord");
+                    p.kickPlayer("§cVocê está banido permanentemente! (#" + rs.getString("hash") + ")\n§cMotivo: " + rs.getString("motivo") + "\n \n§eAdquira Seu unban: §bloja.localhost.com§f\n§cBanido injustamente? Contate-nos via localhost.com/discord");
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -129,8 +128,10 @@ public class MySql {
     }
 
 
-    public static void ban_player(Player vitima, String motivo, Player autor, boolean temp, Timestamp tempo) {
-
+    public static void ban_player(String nome, String motivo, Player autor, boolean temp, Timestamp tempo) {
+        String com = "insert into " + MySql.user_table + " values (default, true, default, null,'" + nome + "', '" + motivo + "', '" + autor.getName() + "', false, null);";
+        sendCommand(com);
+        autor.sendMessage("§aJogador banido com sucesso!");
     }
 
     public static void unban_player(Player vitima) {
