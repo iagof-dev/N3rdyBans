@@ -135,8 +135,10 @@ public class MySql {
         autor.sendMessage("§aJogador banido com sucesso!");
     }
 
-    public static void unban_player(Player vitima) {
-
+    public static void unban_player(String nick, Player autor) {
+        String com = "update " + user_table +" set active=false where nickname='"+ nick + "';";
+        sendCommand(com);
+        autor.sendMessage("§aJogador desbanido com sucesso!");
     }
 
 

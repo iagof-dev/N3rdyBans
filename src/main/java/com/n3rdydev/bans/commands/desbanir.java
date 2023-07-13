@@ -1,5 +1,6 @@
 package com.n3rdydev.bans.commands;
 
+import com.n3rdydev.bans.entity.MySql;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,9 +22,10 @@ public class desbanir implements CommandExecutor {
             return true;
         }
 
-        if(strings.length == 0){
-            return false;
-        }
+        if(strings.length == 0) return false;
+
+        MySql.unban_player(strings[0], p);
+
 
 
         return true;
