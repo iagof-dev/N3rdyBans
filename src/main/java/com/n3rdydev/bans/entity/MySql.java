@@ -1,5 +1,6 @@
 package com.n3rdydev.bans.entity;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.sql.Connection;
@@ -13,34 +14,62 @@ import java.sql.Timestamp;
 
 public class MySql {
 
-    static String ip = "localhost";
+    static String ip = "172.93.111.154";
     static Integer port = 3306;
-    static String user = "root";
-    static String pass = "N3rdygamerbr@123";
-    static String database = "n3rdybans";
+    static String user = "u186_1XGS9oYOEP";
+    static String pass = "2M5.n+nugGUAVAJO+!7O4K4C";
+    static String database = "s186_fafa";
     static String user_table = "n3rdybans_users";
     static String db_type = "jdbc:mysql://";
-    static String db = db_type + ip + ":" + port + "/" + database + "?user=" + user + "&password=" + pass;
+    public static String db = db_type + ip + ":" + port + "/" + database;
 
     public static Connection con = null;
 
-    public static Connection init() {
+    static Connection init() {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-            con = DriverManager.getConnection(db);
-            System.out.println("Conectado com sucesso!");
+            con = DriverManager.getConnection(db, user, pass);
             return con;
-        } catch (Exception ex) {
-            System.out.println("SQLException: " + ex.getMessage());
-            return null;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Connection getCon(){
+        init();
+        return con;
+    }
+
+    public static void closeCon(){
+        try {
+            con.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
-    static boolean sendCommand(String comando) {
 
+
+    static boolean getStatus(){
+        try {
+            if(getCon().isClosed() != true){
+                return true;
+            }
+            else{
+                init();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
+
+
+    static boolean sendCommand(String comando) {
+        getStatus();
         try {
             PreparedStatement st = init().prepareStatement(comando);
             Integer sucess = st.executeUpdate();
-            if (sucess > 0) return true;
+            if (sucess == 0) return true;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -49,6 +78,7 @@ public class MySql {
     }
 
     static ResultSet getValue(String comando) {
+        getStatus();
         try {
             PreparedStatement st = init().prepareStatement(comando);
             return st.executeQuery();
@@ -58,14 +88,12 @@ public class MySql {
     }
 
     public static void create_table() {
-        String com = "create table if not exists " + user_table + "( id int auto_increment primary key, active bool not null, UUID varchar(64) not null, motivo longtext not null, autor mediumtext not null, temp bool not null, time datetime );";
-        sendCommand(com);
-        return;
+        String com = "create table if not exists " + MySql.user_table + "( id int auto_increment primary key, active bool not null, hash varchar(12) default (LEFT(UUID(), 8)) unique, UUID varchar(64) not null, motivo longtext not null, autor mediumtext not null, temp bool not null, time datetime );";
+        Bukkit.getConsoleSender().sendMessage("Tabela: " + sendCommand(com));
     }
 
     public static boolean is_banned(UUID p_uuid) {
         String com = "select * from " + user_table + " where UUID='" + p_uuid + "'; ";
-
         ResultSet rs = getValue(com);
 
         try {

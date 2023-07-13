@@ -12,6 +12,10 @@ import java.sql.SQLException;
 public class main extends JavaPlugin {
     @Override
     public void onLoad() {
+        Bukkit.getConsoleSender().sendMessage("§ePlugin carregando...");
+        MySql.getCon();
+        MySql.create_table();
+
     }
 
     @Override
@@ -25,6 +29,6 @@ public class main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        Bukkit.getConsoleSender().sendMessage("§aPlugin desligado");
+        Bukkit.getConsoleSender().sendMessage("§aPlugin desligado.");
     }
 }
