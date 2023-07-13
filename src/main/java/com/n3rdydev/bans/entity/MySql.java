@@ -1,5 +1,6 @@
 package com.n3rdydev.bans.entity;
 
+import com.n3rdydev.bans.settings.config;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -14,11 +15,11 @@ import java.sql.Timestamp;
 
 public class MySql {
 
-    static String ip = "172.93.111.154";
-    static Integer port = 3306;
-    static String user = "u186_1XGS9oYOEP";
-    static String pass = "2M5.n+nugGUAVAJO+!7O4K4C";
-    static String database = "s186_fafa";
+    static String ip = config.get().getString("database.MySql.ip");
+    static Integer port = config.get().getInt("database.MySql.port");
+    static String user = config.get().getString("database.MySql.user");
+    static String pass = config.get().getString("database.MySql.pass");
+    static String database = config.get().getString("database.MySql.database");
     static String user_table = "n3rdybans_users";
     static String db_type = "jdbc:mysql://";
     public static String db = db_type + ip + ":" + port + "/" + database;
@@ -118,7 +119,7 @@ public class MySql {
 
             try {
                 if (rs.next()) {
-                    p.kickPlayer("§cVocê está banido permanentemente! (#" + rs.getString("hash") + ")\n§cMotivo: " + rs.getString("motivo") + "\n \n§eAdquira Seu unban: §bloja.localhost.com§f\n§cBanido injustamente? Contate-nos via localhost.com/discord");
+                    p.kickPlayer("§cVocê está banido permanentemente! (#" + rs.getString("hash") + ")\n§cMotivo: " + rs.getString("motivo") + "\n \n§eAdquira Seu unban: §b" + server.loja + "§f\n§cBanido injustamente? Contate-nos via " + server.discord);
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);

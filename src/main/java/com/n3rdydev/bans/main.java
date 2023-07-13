@@ -46,6 +46,7 @@ public class main extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        config.save();
         Bukkit.getConsoleSender().sendMessage("§aPlugin desligado.");
     }
 }
