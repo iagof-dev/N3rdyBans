@@ -1,0 +1,15 @@
+name: N3rdyBans
+version: 1.0
+description: Plugin de Bans SPIGOT
+author: N3rdyDev
+website: github.com/iagof-dev
+main: com.n3rdydev.bans.main
+commands:
+  banir:
+    permission-message: §cNão possui permissão.
+    description: Bane o jogador.
+    usage: /banir [jogador] [motivo] [-s/-t] <tempo>
+  desbanir:
+    permission-message: §cNão possui permissão.
+    description: Desbane o jogador.
+    usage: /desbanir [jogador]
